@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midterm_Blow_Me_up
+namespace CSharp_Mines_Better
 {
     class GetGameInput
     {
@@ -77,21 +77,10 @@ namespace Midterm_Blow_Me_up
         private int GetCellPlay()
         {
             int playTypeInt = 0;
-            bool done = false;
+            
             char playType = ' ';
-            while (!done)
-            {
-            Console.Write("(P)lay or (F)lag? ");
-                        playType = Convert.ToChar(Console.ReadLine().ToUpper());
-                if (playType == 'F' || playType == 'P')
-                {
-                    done = true;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid play. Try again.");
-                }
-            }
+            
+            playType = ValInput("(P)lay or (F)lag? ", 'P', 'F');
             if (playType == 'P')
             {
                 playTypeInt = 1;
@@ -101,6 +90,37 @@ namespace Midterm_Blow_Me_up
                 playTypeInt = 2;
             }
             return playTypeInt;
+        }
+
+        public char ValInput(string message, char charLow, char charHigh)
+        {
+            string inp = "";
+            char charInp = ' ';
+            bool done = false;
+            Console.Write(message);
+            while (!done)
+            {
+                inp = Console.ReadLine().ToUpper();
+                if (inp.Length == 1)
+                {
+                    charInp = Convert.ToChar(inp);
+                    if (charInp  == charLow || charInp == charHigh)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Must be exactly {0} or {1}. Try again.", charLow, charHigh);
+                        Console.Write(message);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Must be exactly one character, {0} or {1}. Try again.", charLow, charHigh);
+                    Console.Write(message);
+                }
+            }
+            return charInp;
         }
     }
 }

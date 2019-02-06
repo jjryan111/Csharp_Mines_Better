@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midterm_Blow_Me_up
+namespace CSharp_Mines_Better
 {
     class GameStats
     {

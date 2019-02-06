@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midterm_Blow_Me_up
+namespace CSharp_Mines_Better
 {
     class PlayGame1
     {
@@ -12,11 +12,13 @@ namespace Midterm_Blow_Me_up
         private int flagsOnBombs = 0;
         private WinLose gameState = new WinLose();
         private GameStats gameStats = new GameStats(0,0,0);
+        private GetGameInput ginp = new GetGameInput();
 
-        public PlayGame1(WinLose gameState, GameStats gameStats)
+        public PlayGame1(WinLose gameState, GameStats gameStats, GetGameInput ginp)
         {
             this.gameState = gameState;
             this.gameStats = gameStats;
+            this.ginp = ginp;
         }
 
         public int[,] MakePlay(List<int> myPlay, int[,] gameBoard)
@@ -40,18 +42,47 @@ namespace Midterm_Blow_Me_up
         {
             int x = play[0] - 64;
             int y = play[1];
-            gameBoard[x, y] += 50;
-            if (gameBoard[x, y] > 99 && gameBoard[x, y] < 200)
+            if ((gameBoard[x, y] > 20 && gameBoard[x, y] < 100) || (gameBoard[x, y] >= 150 && gameBoard[x, y] < 200))
             {
-                flagsOnBombs++;
-                Console.WriteLine(flagsOnBombs);
-                if(flagsOnBombs == gameStats.mines)
+                gameBoard = RemoveFlag(gameBoard, x, y);
+
+            }
+            else
+            {
+                gameBoard[x, y] += 50;
+                if (gameBoard[x, y] > 99 && gameBoard[x, y] < 200)
                 {
-                    gameState.GameOver("You WIN!!!");
+                    flagsOnBombs++;
+                    Console.WriteLine(flagsOnBombs);
+                    if (flagsOnBombs == gameStats.mines)
+                    {
+                        gameState.GameOver("You WIN!!!");
+                    }
                 }
             }
             return gameBoard;
 
+        }
+
+        private int[,] RemoveFlag (int[,] gameBoard, int x, int y)
+        {
+           
+            char rFlag = ginp.ValInput("Remove Flag? ", 'Y', 'N');
+            if (rFlag == 'Y')
+            {
+                gameBoard[x, y] -= 50;
+             
+            }
+            else if (rFlag == 'N')
+            {
+                Console.WriteLine("Canceled.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid play. Try again.");
+            }
+           
+            return gameBoard;
         }
 
         private int[,] CellPlay(List <int> play, int[,] gameBoard)

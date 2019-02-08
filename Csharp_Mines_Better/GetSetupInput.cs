@@ -8,35 +8,31 @@ namespace CSharp_Mines_Better
 {
     class GetSetupInput
     {
-        MakeBoard mb = new MakeBoard();
-        int maxRows = 12;
-        int maxCols = 12;
-        int numBombs = 0;
-
-        public GetSetupInput()
+        private GameStats gameStats = new GameStats();
+        
+        public GetSetupInput(GameStats gameStats)
         {
-          
+            this.gameStats = gameStats;
+  
         }
-        public int ReturnMines()
-        {
-            return numBombs;
-        }
+        
         public int[,] GetBoard (int[,] board)
-        {        
+        {
+            MakeBoard mb = new MakeBoard(gameStats);
             int maxBombs = 0;
-            board = GetBoardSize(maxRows, maxCols);
+            board = GetBoardSize();
             maxBombs = MaxNumBombs(board);
-            numBombs = NumOfBombs(maxBombs);
-            board = mb.Setup(board, numBombs);
+            gameStats.mines = NumOfBombs(maxBombs);
+            board = mb.Setup(board);
             return board;
         }
-        private int [,] GetBoardSize(int maxRows, int maxCols)
+        private int [,] GetBoardSize()
         {
-            int row = GetBoardRows(maxRows);
-            int col = GetBoardCols(maxCols);
-
-            int[,] gameBoard = new int[(row+2), (col+2)];
-
+            int row = GetBoardRows(gameStats.maxRows);
+            int col = GetBoardCols(gameStats.maxCols);
+            gameStats.backBoardRows = row + 2;
+            gameStats.backBoardCols = col + 2;
+            int[,] gameBoard = new int[gameStats.backBoardRows, gameStats.backBoardCols];
             return gameBoard;
         }
         
@@ -89,14 +85,14 @@ namespace CSharp_Mines_Better
             while (!isNum)
             {
                 Console.Write("Please enter the number of bombs (max {0}): ", maxBombs);
-                isNum = int.TryParse(Console.ReadLine(), out numBombs);
-                if (!isNum || (numBombs > maxBombs))
+                isNum = int.TryParse(Console.ReadLine(), out gameStats.mines);
+                if (!isNum || (gameStats.mines > maxBombs))
                 {
                     Console.WriteLine("Invalid input.");
                     isNum = false;
                 }
             }
-            return numBombs;
+            return gameStats.mines;
         }
     }
 }

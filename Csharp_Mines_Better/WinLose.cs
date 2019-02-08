@@ -9,17 +9,21 @@ namespace CSharp_Mines_Better
     class WinLose
     {
         public bool done = false;
-        public WinLose() { }
+        private DisplayBoard db = new DisplayBoard();
 
-        public void GameOver(string message)
+        public WinLose()
         {
 
+        }
+
+        public void GameOver(string message, int[,] gameBoard)
+        {
             done = true;
             Console.Clear();
             Console.WriteLine(message);
             Console.WriteLine();
             Console.WriteLine();
-
+            db.PrintBackBoard(gameBoard);
         }
     }
 }

@@ -8,7 +8,10 @@ namespace CSharp_Mines_Better
 {
     class GetGameInput
     {
-        public GetGameInput() { }
+        public GetGameInput()
+        {
+
+        }
 
         public List<int> GetPlay(int rows, int cols)
         {

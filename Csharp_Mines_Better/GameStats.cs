@@ -8,16 +8,17 @@ namespace CSharp_Mines_Better
 {
     class GameStats
     {
-        private int maxRows = 12;
-        private int maxCols = 12;
+        public int maxRows = 12;
+        public int maxCols = 12;
+        public int flagsOnBombs = 0;
         public int rows = 0;
         public int cols = 0;
         public int mines = 0;
-        public GameStats(int rows, int cols, int mines)
+        public int backBoardRows = 0;
+        public int backBoardCols = 0;
+        public GameStats()
         {
-            this.rows = rows;
-            this.cols = cols;
-            this.mines = mines;
+            
         }
     }
 }

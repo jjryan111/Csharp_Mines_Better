@@ -10,28 +10,13 @@ namespace CSharp_Mines_Better
     {//GIT YOU'RE A GIT
         static void Main(string[] args)
         {
-            GetSetupInput inp = new GetSetupInput();
-            DisplayBoard db = new DisplayBoard();
-            WinLose wonLost = new WinLose();
-            GetGameInput ginp = new GetGameInput();
-
+            GameStats gameStats = new GameStats();
+            GetSetupInput inp = new GetSetupInput(gameStats);
             int[,] gameBoard = new int [0,0];
+            PlayGame game = new PlayGame(gameStats);
+
             gameBoard = inp.GetBoard(gameBoard);
-            GameStats gstats = new GameStats(1,1,inp.ReturnMines());
-            PlayGame1 game = new PlayGame1(wonLost, gstats, ginp);
-            while (!wonLost.done)
-            {
-                Console.Clear();
-                db.PrintBackBoard(gameBoard);
-                Console.WriteLine();
-                db.PrintFrontBoard(gameBoard);
-                Console.WriteLine();
-                Console.WriteLine(gstats.mines);
-                List<int> myPlay = new List<int>();
-                myPlay = ginp.GetPlay((gameBoard.GetLength(0) - 2), (gameBoard.GetLength(1) - 2));
-                gameBoard = game.MakePlay(myPlay, gameBoard);
-            }
-            db.PrintBackBoard(gameBoard);
+            game.Game(gameBoard);
             Console.ReadLine();
         }
     }

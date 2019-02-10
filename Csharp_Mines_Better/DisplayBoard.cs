@@ -13,7 +13,7 @@ namespace CSharp_Mines_Better
 
         }
 
-        public void PrintHeader(int[,] board) //Prints the line of numbers ont he top of the board
+        public void PrintHeader(int[,] board) // Prints the line of numbers on the top of the board
         {
             Console.Write("\t");
             for (int i = 1; i < (board.GetLength(1)-1); i++)
@@ -21,7 +21,7 @@ namespace CSharp_Mines_Better
                 Console.Write("{0}\t",i);
             }
             Console.WriteLine();
-            Console.Write("   "); // so that the spacing comes out right at the top left corner
+            Console.Write("   "); // So that the spacing comes out right at the top left corner
             for (int j = 1; j < (board.GetLength(1)-1); j++)
             {
                 Console.Write("________"); // Top border 

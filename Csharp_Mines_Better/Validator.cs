@@ -8,14 +8,15 @@ namespace CSharp_Mines_Better
 {
     class Validator
     {
-       
         public Validator()
         {
           
         }
         
         public char ValidateInput(string message, char charLow, char charHigh, bool between)
-        {
+        { // Returns a single uppercase character or ASCII value of an integer from 0-9
+          // If between is true gets a value between the first and last characters given
+          // If between is false gives either the first or last character
             string inp = "";
             char charInp = ' ';
             int intLow = Convert.ToInt16(charLow);
@@ -50,7 +51,7 @@ namespace CSharp_Mines_Better
                     {
                         if (between)
                         {
-                            Console.WriteLine("Invalid input. Must be exactly one character between {0} and {1}.", charLow, charHigh);
+                            Console.WriteLine("Invalid input. Must be between {0} and {1}.", charLow, charHigh);
                         }
 
                         else

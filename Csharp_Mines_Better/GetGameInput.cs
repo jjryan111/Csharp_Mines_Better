@@ -8,82 +8,28 @@ namespace CSharp_Mines_Better
 {
     class GetGameInput
     {
+        private Validator val = new Validator();  
+
         public GetGameInput()
         {
 
         }
 
-        public List<int> GetPlay(int rows, int cols)
+        public int[] GetPlay(int rows, int cols) //Gets a 3 character array with row, column, and (play or flag)
         {
-            int playRowInt = GetRowPlay(rows);
-            int playCol = GetColPlay(cols);
-            int playType = GetCellPlay();
-            List<int> play = new List<int>();
-            
-            play.Add(playRowInt);
-            play.Add(playCol);
-            play.Add(playType);
+            char endRow = (char)(65 + (rows - 1)); //Gets letter value of the end row. ASCII 65 is 'A'
+            char endCol = (char)(((cols - 1) + 49)); //Gets a character value of the end column. ASCII 49 is '1'
+            int[] play = new int[3];
+            play[0] = Convert.ToInt16((val.ValidateInput("Enter Row: ", 'A', endRow, true)) - 64);
+            play[1] = Convert.ToInt16((val.ValidateInput("Enter Column: ", '1', endCol, true)) - 48);
+            play[2] = GetCellPlay();
             return play;
         }
 
-        private int GetRowPlay(int rows)
-        {
-            char rowMaxLetter = (char)(65 + (rows - 1));
-            bool done = false;
-            int playRowInt = 0;
-            string playRow = "";
-            while (!done)
-            {
-                Console.Write("Enter the row (A - {0}): ", rowMaxLetter);
-                playRow = Console.ReadLine().ToUpper();
-                if (playRow.Length == 1)
-                {
-                    playRowInt = Convert.ToInt16(Convert.ToChar(playRow));
-                    if (playRowInt >= 65 && playRowInt <= rowMaxLetter)
-                    {
-                        done = true;
-                    }
-                    else
-                    {
-                        done = false;
-                        Console.WriteLine("Enter a letter between A and {0}. Try again.", rowMaxLetter);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Must be exactly one character between A and {0}. Try again.", rowMaxLetter);
-                }
-            }
-            return playRowInt;
-        }
-        private int GetColPlay(int cols)
-        {
-            bool done = false;
-            bool isNum = false;
-            int playCol = 0;
-            while (!done)
-            {
-                Console.Write("Enter the column (1 - {0}): ", cols);
-                isNum = int.TryParse(Console.ReadLine(), out playCol);
-                if (playCol > 0 && playCol <= cols)
-                {
-                    done = true;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid column. Try again.");
-                }
-            }
-            return playCol;
-        }
-
-        private int GetCellPlay()
+        private int GetCellPlay() // Get the play type made, either Play (reveal the cell) or Flag (Mark it as a mine)
         {
             int playTypeInt = 0;
-            
-            char playType = ' ';
-            
-            playType = ValInput("(P)lay or (F)lag? ", 'P', 'F');
+            char playType = val.ValidateInput("(P)lay or (F)lag? ", 'P', 'F', false); // Validates input, Returns a P or an F
             if (playType == 'P')
             {
                 playTypeInt = 1;
@@ -94,36 +40,6 @@ namespace CSharp_Mines_Better
             }
             return playTypeInt;
         }
-
-        public char ValInput(string message, char charLow, char charHigh)
-        {
-            string inp = "";
-            char charInp = ' ';
-            bool done = false;
-            Console.Write(message);
-            while (!done)
-            {
-                inp = Console.ReadLine().ToUpper();
-                if (inp.Length == 1)
-                {
-                    charInp = Convert.ToChar(inp);
-                    if (charInp  == charLow || charInp == charHigh)
-                    {
-                        done = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input. Must be exactly {0} or {1}. Try again.", charLow, charHigh);
-                        Console.Write(message);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Must be exactly one character, {0} or {1}. Try again.", charLow, charHigh);
-                    Console.Write(message);
-                }
-            }
-            return charInp;
-        }
+        
     }
 }

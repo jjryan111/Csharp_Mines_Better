@@ -8,9 +8,9 @@ namespace CSharp_Mines_Better
 {
     class PlayGame
     {
-
         private WinLose gameState = new WinLose();
         private GameStats gameStats = new GameStats();
+        private Validator setupInput = new Validator();
         private GetGameInput ginp = new GetGameInput();
         private DisplayBoard db = new DisplayBoard();
 
@@ -25,13 +25,13 @@ namespace CSharp_Mines_Better
             {
                 Console.Clear();
                 db.PrintFrontBoard(gameBoard);
-                List<int> myPlay = new List<int>();
+                int[] myPlay = new int[3];
                 myPlay = ginp.GetPlay((gameBoard.GetLength(0) - 2), (gameBoard.GetLength(1) - 2));
                 gameBoard = MakePlay(myPlay, gameBoard);
             }
         }
 
-        public int[,] MakePlay(List<int> myPlay, int[,] playGameBoard)
+        public int[,] MakePlay(int[] myPlay, int[,] playGameBoard)
         {
             if (myPlay[2] == 1)
             {
@@ -48,7 +48,7 @@ namespace CSharp_Mines_Better
             return playGameBoard;
         }
 
-        private int[,] FlagPlay(List <int> play, int [,] flagGameBoard)
+        private int[,] FlagPlay(int[] play, int [,] flagGameBoard)
         {
             int x = play[0] - 64;
             int y = play[1];
@@ -77,7 +77,7 @@ namespace CSharp_Mines_Better
         private int[,] RemoveFlag (int[,] rfGameBoard, int x, int y)
         {
            
-            char rFlag = ginp.ValInput("Remove Flag? ", 'Y', 'N');
+            char rFlag = setupInput.ValidateInput("Remove Flag? ", 'Y', 'N', false);
             if (rFlag == 'Y')
             {
                 rfGameBoard[x, y] -= 50;
@@ -98,9 +98,9 @@ namespace CSharp_Mines_Better
             return rfGameBoard;
         }
 
-        private int[,] CellPlay(List <int> play, int[,] cpGameBoard)
+        private int[,] CellPlay(int[] play, int[,] cpGameBoard)
         {
-            int x = play[0] - 64;
+            int x = play[0];
             int y = play[1];
             int playFlag = play[2];
             if (cpGameBoard[x, y] >= 10 && cpGameBoard[x, y] < 20)

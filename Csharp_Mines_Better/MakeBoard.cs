@@ -8,18 +8,16 @@ namespace CSharp_Mines_Better
 {
     class MakeBoard
     {
-        private GameStats gameStats = new GameStats();
         private Random n = new Random();
-
-        public MakeBoard(GameStats gameStats)
+        public MakeBoard()
         {// GIT YOU'RE A GIT
-            this.gameStats = gameStats;
+        
         }
 
-        public int[,] Setup(int[,] initialBoard)
+        public int[,] AddStuff(int[,] initialBoard, int mines)
         {
             initialBoard = AddEdges(initialBoard);
-            initialBoard = AddMines(initialBoard, gameStats.mines);
+            initialBoard = AddMines(initialBoard, mines);
             initialBoard = MakeGameBoard(initialBoard);
             return initialBoard;
         }

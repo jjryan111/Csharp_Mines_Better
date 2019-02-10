@@ -10,12 +10,11 @@ namespace CSharp_Mines_Better
     {//GIT YOU'RE A GIT
         static void Main(string[] args)
         {
+            int[,] gameBoard = new int[0, 0];
             GameStats gameStats = new GameStats();
-            GetSetupInput inp = new GetSetupInput(gameStats);
-            int[,] gameBoard = new int [0,0];
             PlayGame game = new PlayGame(gameStats);
 
-            gameBoard = inp.GetBoard(gameBoard);
+            gameBoard = gameStats.GetBoard();
             game.Game(gameBoard);
             Console.ReadLine();
         }
